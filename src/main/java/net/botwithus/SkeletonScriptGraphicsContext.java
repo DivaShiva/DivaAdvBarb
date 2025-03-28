@@ -16,22 +16,45 @@ public class SkeletonScriptGraphicsContext extends ScriptGraphicsContext {
 
     @Override
     public void drawSettings() {
-        if (ImGui.Begin("My script", ImGuiWindowFlag.None.getValue())) {
+        if (ImGui.Begin("DivaAdvBarb", ImGuiWindowFlag.None.getValue())) {
             if (ImGui.BeginTabBar("My bar", ImGuiWindowFlag.None.getValue())) {
                 if (ImGui.BeginTabItem("Settings", ImGuiWindowFlag.None.getValue())) {
-                    ImGui.Text("Welcome to my script!");
-                    ImGui.Text("My scripts state is: " + script.getBotState());
+                    ImGui.Text("Click start to start/ Stop to stop");
+
+
+                    // Display current state
+                    ImGui.Text("Current State: " + script.getBotState());
+
+                    // Add start/stop buttons
+                    if (ImGui.Button("Start Agility Course")) {
+                        script.setBotState(SkeletonScript.BotState.SKILLING);
+                    }
+                    ImGui.SameLine();
+                    if (ImGui.Button("Stop")) {
+                        script.setBotState(SkeletonScript.BotState.IDLE);
+                    }
+
+
+                    ImGui.Separator();
+
+
+                    // Existing checkbox
+
+
                     ImGui.EndTabItem();
                 }
-                if (ImGui.BeginTabItem("Other", ImGuiWindowFlag.None.getValue())) {
-                    script.setSomeBool(ImGui.Checkbox("Are you cool?", script.isSomeBool()));
+                if (ImGui.BeginTabItem("Stats", ImGuiWindowFlag.None.getValue())) {
+                    ImGui.Text("Laps Completed: %d", script.getLapsCompleted());
+
+                    ImGui.Separator();
+                    ImGui.Text("Current Obstacle: %s",
+                            script.agilityHandler.getCurrentObstacleName());
                     ImGui.EndTabItem();
                 }
                 ImGui.EndTabBar();
             }
             ImGui.End();
         }
-
     }
 
     @Override
